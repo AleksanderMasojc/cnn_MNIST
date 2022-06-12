@@ -60,7 +60,7 @@ function sketch(event){
   if (!paint) return;
   ctx.beginPath();
     
-  ctx.lineWidth = 12;
+  ctx.lineWidth = 10;
    
   // Sets the end of the lines drawn
   // to a round shape.
@@ -91,14 +91,14 @@ async function predict(){
     img = img.reshape([1, 28, 28, 1]);
     img = tf.cast(img, 'float32');
     //const output = model.predict(img);
-    tf.loadLayersModel('./first_cnn/tfjsmodel/model.json').then(function(model){
+    tf.loadLayersModel('./first_cnn/notSeqv5_20epochs_high_acc_maybe/model.json').then(function(model){
       let output = model.predict(img);
       //console.log(output);
       let predictions = Array.from(output.dataSync()); 
-      //console.log(predictions);
-      let res = 0;
+      console.log(predictions);
+      let res = .0;
       for (let index = 0; index < 10; index++) {
-        if(predictions[index] === 1) res = index;
+        if(predictions[index] > .8) res = index;
       }
       console.log(res);
       answer.innerText = res
