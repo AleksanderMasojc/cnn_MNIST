@@ -1,6 +1,13 @@
+from tensorflow.keras.datasets import mnist
+import tensorflowjs as tfjs
 import tensorflow as tf
+import matplotlib.pyplot as plt
 import numpy as np
 
-x1 = tf.keras.layers.Dense(8)(np.arange(10).reshape(5, 2))
+(train_features, train_labels), (test_features, test_labels) = mnist.load_data()
 
-print(x1.shape)
+print(train_features.shape)
+print(test_features.shape)
+
+plt.imshow(train_features[3,:,:], cmap =plt.cm.binary)
+plt.show()
