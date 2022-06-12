@@ -12,4 +12,4 @@ notSeqcv2.2- batch64 - epochs10 - 0.9814
 
 784-800-10-10 - 0.9839 15e-64b - 0.9929
 
-notSeqv5_20epochs_high_acc_maybe - 0.995
+notSeqv5_20epochs_high_acc_maybe - 0.995 (updated version has 0.996)

@@ -61,7 +61,6 @@ model = tf.keras.layers.AveragePooling2D(2)(model)
 
 
 model = tf.keras.layers.concatenate([tf.keras.layers.GlobalMaxPooling2D()(model),tf.keras.layers.GlobalAveragePooling2D()(model)])
-#model = tf.keras.layers.Flatten()(model)
 model = tf.keras.layers.Dense(784, activation='relu', kernel_regularizer=tf.keras.regularizers.l1(0.00025))(model)
 model = tf.keras.layers.Dense(800, activation='relu', kernel_regularizer=tf.keras.regularizers.l1(0.00025))(model)
 model = tf.keras.layers.Dense(10, activation='relu', kernel_regularizer=tf.keras.regularizers.l1(0.00025))(model)
@@ -69,42 +68,13 @@ model = tf.keras.layers.Dense(10, activation='softmax', use_bias=False, kernel_r
 
 with tf.device('/GPU:0'):
     model = tf.keras.Model(inputs=s, outputs=model)
-    #model.compile(optimizer = tf.keras.optimizers.Adam(lr=0.001), loss='categorical_crossentropy', metrics = ['accuracy'])
-    #print(train_features.shape)
-    #model.fit(train_features, train_labels, epochs=20, batch_size=64, shuffle=True, steps_per_epoch=len(train_features) / 64)
-
-    #tfjs.converters.save_keras_model(model,'notSeqv2_20epochs')
-    #print(model.evaluate(test_features, test_labels)[1])
-
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(rotation_range=20, width_shift_range=0.1, shear_range=10,
                         height_shift_range=0.1, zoom_range=0.3)
     datagen.fit(train_features)
 
-
-
-    #hp_learning_rate = kt.Choice('learning_rate', values=[1e-2, 1e-3, 1e-4])
-
     model.compile(optimizer = tf.keras.optimizers.Adam(lr=0.0005), loss='categorical_crossentropy', metrics = ['accuracy'])
     print(train_features.shape)
-    model.fit(datagen.flow(train_features, train_labels, batch_size=64,shuffle=True), epochs=20)   #, steps_per_epoch=len(train_features) / 64)
-
+    model.fit(datagen.flow(train_features, train_labels, batch_size=64,shuffle=True), epochs=20)
     tfjs.converters.save_keras_model(model,'notSeqv5_20epochs_high_acc_maybe')
     print(model.evaluate(test_features, test_labels)[1])
-    print(model.evaluate(test_features, test_labels)[0])
-    print(model.evaluate(test_features, test_labels)[2])
-
-    #model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001), loss='categorical_crossentropy',metrics=['accuracy'])
-    #model.fit_generator(datagen.flow(train_features, train_labels, batch_size=64,shuffle=True),
-    #            steps_per_epoch=len(train_features) / 64, epochs=13,verbose=0)
-    #model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001), loss='categorical_crossentropy',metrics=['accuracy'])
-    #model.fit_generator(datagen.flow(train_features, train_labels, batch_size=64,shuffle=True),
-    #            steps_per_epoch=len(train_features) / 64, epochs=3,verbose=0)
-    #model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001), loss='categorical_crossentropy',metrics=['accuracy'])
-    #model.fit_generator(datagen.flow(train_features, train_labels, batch_size=64,shuffle=True),
-     #           steps_per_epoch=len(train_features) / 64, epochs=3,verbose=0)
-    #model.fit(train_features, train_labels, batch_size=64,shuffle=True, epochs=1,verbose=0)
-
-
-    #tfjs.converters.save_keras_model(model,'notSeq784-800-20e-64b')
-    #print(model.evaluate(test_features, test_labels)[1])
